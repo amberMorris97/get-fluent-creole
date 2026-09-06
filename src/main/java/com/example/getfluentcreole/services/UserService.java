@@ -1,7 +1,6 @@
 package com.example.getfluentcreole.services;
 
-import com.example.getfluentcreole.dto.request.CreateUserRequestDTO;
-
+import com.example.getfluentcreole.dto.UserDTO;
 public interface UserService {
-    CreateUserRequestDTO createUser(CreateUserRequestDTO createUserRequestDTO);
+    UserDTO createUser(UserDTO userDTO);
 }
