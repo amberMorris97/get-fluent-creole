@@ -3,7 +3,7 @@ package com.example.getfluentcreole.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class CreateUserRequestDTO {
+public class UserRequestDTO {
 
     @NotBlank(message = "First name is required")
     private String firstName;

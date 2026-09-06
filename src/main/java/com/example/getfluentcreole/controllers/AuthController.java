@@ -1,13 +1,12 @@
 package com.example.getfluentcreole.controllers;
 
 import com.example.getfluentcreole.dto.UserDTO;
-import com.example.getfluentcreole.dto.request.CreateUserRequestDTO;
+import com.example.getfluentcreole.dto.request.UserRequestDTO;
+import com.example.getfluentcreole.dto.response.UserResponseDTO;
 import com.example.getfluentcreole.services.UserService;
 import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -21,13 +20,21 @@ public class AuthController {
         this.modelMapper = modelMapper;
         this.userService = userService;
     }
-    @GetMapping
-    public String createNewUser(@RequestBody CreateUserRequestDTO createUserRequest) {
-//        UserDTO userDTO = mapTo
-        return "User created successfully!";
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/register")
+    public UserResponseDTO createNewUser(@RequestBody UserRequestDTO userRequest) {
+        UserDTO userDTO = mapToUserDTO(userRequest);
+        userDTO = userService.createUser(userDTO);
+
+        return mapToUserResponse(userDTO);
     }
 
-    private UserDTO mapToUserDTO(CreateUserRequestDTO createUserRequestDTO) {
-        return modelMapper.map(userProfileRequest, UserProfileDTO.class);
+    private UserDTO mapToUserDTO(UserRequestDTO userRequestDTO) {
+        return modelMapper.map(userRequestDTO, UserDTO.class);
+    }
+
+    private UserResponseDTO mapToUserResponse(UserDTO userDTO) {
+        return modelMapper.map(userDTO, UserResponseDTO.class);
     }
 }
