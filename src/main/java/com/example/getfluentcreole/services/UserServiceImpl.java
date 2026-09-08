@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
-        if (userRepository.existsByEmail(userDTO.getEmailAddress())) {
+        if (userRepository.existsByEmailAddress(userDTO.getEmailAddress())) {
             // TODO: throw new ItemNotFoundException
         }
 
