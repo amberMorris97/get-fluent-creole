@@ -14,18 +14,4 @@ public class AppConfig {
         return new ModelMapper();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public @Nullable String encode(@Nullable CharSequence rawPassword) {
-                return "";
-            }
-
-            @Override
-            public boolean matches(@Nullable CharSequence rawPassword, @Nullable String encodedPassword) {
-                return false;
-            }
-        };
-    }
 }
