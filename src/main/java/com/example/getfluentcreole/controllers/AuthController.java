@@ -24,6 +24,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public UserResponseDTO createNewUser(@RequestBody UserRequestDTO userRequest) {
+
         UserDTO userDTO = mapToUserDTO(userRequest);
         userDTO = userService.createUser(userDTO);
 
