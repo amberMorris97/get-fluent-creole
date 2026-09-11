@@ -16,11 +16,15 @@ public class Phrase {
     @Column(name = "ht", nullable = false)
     private String haitianCreole;
 
+    @Column(name = "pronunciation", nullable = true)
+    private String pronunciation;
+
     public Phrase() {}
 
-    public Phrase(String english, String haitianCreole) {
+    public Phrase(String english, String haitianCreole, String pronunciation) {
         this.english = english;
         this.haitianCreole = haitianCreole;
+        this.pronunciation = pronunciation;
     }
 
     public int getId() {
@@ -35,11 +39,23 @@ public class Phrase {
         this.english = english;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getHaitianCreole() {
         return haitianCreole;
     }
 
     public void setHaitianCreole(String haitianCreole) {
         this.haitianCreole = haitianCreole;
+    }
+
+    public String getPronunciation() {
+        return pronunciation;
+    }
+
+    public void setPronunciation(String pronunciation) {
+        this.pronunciation = pronunciation;
     }
 }

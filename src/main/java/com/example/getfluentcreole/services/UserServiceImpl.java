@@ -4,6 +4,7 @@ import com.example.getfluentcreole.dto.UserDTO;
 import com.example.getfluentcreole.exceptions.ItemAlreadyExistsException;
 import com.example.getfluentcreole.models.User;
 import com.example.getfluentcreole.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
