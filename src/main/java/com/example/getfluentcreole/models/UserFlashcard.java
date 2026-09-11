@@ -32,4 +32,32 @@ public class UserFlashcard {
         this.phrase = phrase;
         this.status = status;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Phrase getPhrase() {
+        return phrase;
+    }
+
+    public void setPhrase(Phrase phrase) {
+        this.phrase = phrase;
+    }
+
+    public FlashcardStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FlashcardStatus status) {
+        this.status = status;
+    }
 }
