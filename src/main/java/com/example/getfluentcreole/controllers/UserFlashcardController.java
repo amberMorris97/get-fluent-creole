@@ -1,8 +1,11 @@
 package com.example.getfluentcreole.controllers;
 
 import com.example.getfluentcreole.dto.UserFlashcardDTO;
+import com.example.getfluentcreole.dto.request.UserFlashcardRequestDTO;
+import com.example.getfluentcreole.models.Phrase;
 import com.example.getfluentcreole.models.User;
 import com.example.getfluentcreole.models.UserFlashcard;
+import com.example.getfluentcreole.repositories.PhraseRepository;
 import com.example.getfluentcreole.repositories.UserFlashcardRepository;
 import com.example.getfluentcreole.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +25,18 @@ public class UserFlashcardController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PhraseRepository phraseRepository;
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
-    public UserFlashcardDTO createNewUserFlashcard(@RequestBody UserFlashcardDTO userFlashcardDTO) {
-        UserFlashcard userFlashcard = new UserFlashcard(userFlashcardDTO.getUser(), userFlashcardDTO.getPhrase(), userFlashcardDTO.getStatus());
+    public UserFlashcardRequestDTO createNewUserFlashcard(@RequestBody UserFlashcardRequestDTO dto) {
+        User user = userRepository.findById(dto.getUserId()).orElse(null);
+        Phrase phrase = phraseRepository.findById(dto.getPhraseId()).orElse(null);
+        UserFlashcard userFlashcard = new UserFlashcard(user, phrase, dto.getStatus());
         userFlashcardRepository.save(userFlashcard);
-        return userFlashcardDTO;
+        return dto;
     }
 
     @GetMapping("/{userId}")
