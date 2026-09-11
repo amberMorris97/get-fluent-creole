@@ -1,8 +1,10 @@
 package com.example.getfluentcreole.controllers;
 
 import com.example.getfluentcreole.dto.UserFlashcardDTO;
+import com.example.getfluentcreole.models.User;
 import com.example.getfluentcreole.models.UserFlashcard;
 import com.example.getfluentcreole.repositories.UserFlashcardRepository;
+import com.example.getfluentcreole.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class UserFlashcardController {
     @Autowired
     UserFlashcardRepository userFlashcardRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/add")
@@ -28,7 +33,14 @@ public class UserFlashcardController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserFlashcards(@PathVariable int userId) {
-        List<UserFlashcard> flashcards = userFlashcardRepository.findAllByUserId(userId);
+        User user = userRepository.findById(userId).orElse(null);
+        List<UserFlashcard> flashcards = userFlashcardRepository.findAllByUser(user);
         return new ResponseEntity<>(flashcards, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{flashcardId}")
+    public ResponseEntity<?> deleteUserFlashcard(@PathVariable int flashcardId) {
+        userFlashcardRepository.deleteById(flashcardId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
