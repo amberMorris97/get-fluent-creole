@@ -1,7 +1,7 @@
 package com.example.getfluentcreole.controllers;
 
-import com.example.getfluentcreole.dto.UserFlashcardDTO;
 import com.example.getfluentcreole.dto.request.UserFlashcardRequestDTO;
+import com.example.getfluentcreole.dto.response.UserFlashcardResponseDTO;
 import com.example.getfluentcreole.exceptions.ItemAlreadyExistsException;
 import com.example.getfluentcreole.models.Phrase;
 import com.example.getfluentcreole.models.User;
@@ -49,8 +49,11 @@ public class UserFlashcardController {
     @GetMapping("/{email}")
     public ResponseEntity<?> getUserFlashcards(@PathVariable String email) {
         User user = userRepository.findByEmailAddress(email).orElse(null);
-        List<UserFlashcard> flashcards = userFlashcardRepository. findAllByUser(user);
-        return new ResponseEntity<>(flashcards, HttpStatus.OK);
+        List<UserFlashcard> flashcards = userFlashcardRepository.findAllByUser(user);
+        List<UserFlashcardResponseDTO> dtos = flashcards.stream()
+                .map(UserFlashcardResponseDTO::new)
+                .toList();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @DeleteMapping("/{flashcardId}")
