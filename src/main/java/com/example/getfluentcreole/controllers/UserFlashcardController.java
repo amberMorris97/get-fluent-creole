@@ -2,6 +2,7 @@ package com.example.getfluentcreole.controllers;
 
 import com.example.getfluentcreole.dto.UserFlashcardDTO;
 import com.example.getfluentcreole.dto.request.UserFlashcardRequestDTO;
+import com.example.getfluentcreole.exceptions.ItemAlreadyExistsException;
 import com.example.getfluentcreole.models.Phrase;
 import com.example.getfluentcreole.models.User;
 import com.example.getfluentcreole.models.UserFlashcard;
@@ -34,6 +35,12 @@ public class UserFlashcardController {
     public UserFlashcardRequestDTO createNewUserFlashcard(@RequestBody UserFlashcardRequestDTO dto) {
         User user = userRepository.findByEmailAddress(dto.getEmail()).orElse(null);
         Phrase phrase = phraseRepository.findById(dto.getPhraseId()).orElse(null);
+
+        assert phrase != null;
+        if (userFlashcardRepository.existsByUserAndPhraseId(user, phrase.getId())) {
+            throw new ItemAlreadyExistsException("Flashcard already exists for this user and phrase.");
+        }
+
         UserFlashcard userFlashcard = new UserFlashcard(user, phrase, dto.getStatus());
         userFlashcardRepository.save(userFlashcard);
         return dto;
@@ -42,7 +49,7 @@ public class UserFlashcardController {
     @GetMapping("/{email}")
     public ResponseEntity<?> getUserFlashcards(@PathVariable String email) {
         User user = userRepository.findByEmailAddress(email).orElse(null);
-        List<UserFlashcard> flashcards = userFlashcardRepository.findAllByUser(user);
+        List<UserFlashcard> flashcards = userFlashcardRepository. findAllByUser(user);
         return new ResponseEntity<>(flashcards, HttpStatus.OK);
     }
 

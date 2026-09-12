@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface UserFlashcardRepository extends JpaRepository<UserFlashcard, Integer> {
     List<UserFlashcard> findAllByUser(User user);
+
+    Boolean existsByUserAndPhraseId(User user, Integer phraseId);
 }
