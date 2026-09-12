@@ -30,18 +30,18 @@ public class UserFlashcardController {
 
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/add")
+    @PostMapping("/addFlashcard")
     public UserFlashcardRequestDTO createNewUserFlashcard(@RequestBody UserFlashcardRequestDTO dto) {
-        User user = userRepository.findById(dto.getUserId()).orElse(null);
+        User user = userRepository.findByEmailAddress(dto.getEmail()).orElse(null);
         Phrase phrase = phraseRepository.findById(dto.getPhraseId()).orElse(null);
         UserFlashcard userFlashcard = new UserFlashcard(user, phrase, dto.getStatus());
         userFlashcardRepository.save(userFlashcard);
         return dto;
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<?> getUserFlashcards(@PathVariable int userId) {
-        User user = userRepository.findById(userId).orElse(null);
+    @GetMapping("/{email}")
+    public ResponseEntity<?> getUserFlashcards(@PathVariable String email) {
+        User user = userRepository.findByEmailAddress(email).orElse(null);
         List<UserFlashcard> flashcards = userFlashcardRepository.findAllByUser(user);
         return new ResponseEntity<>(flashcards, HttpStatus.OK);
     }

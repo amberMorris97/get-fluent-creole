@@ -3,24 +3,24 @@ package com.example.getfluentcreole.dto.request;
 import com.example.getfluentcreole.models.FlashcardStatus;
 
 public class UserFlashcardRequestDTO {
-    private int userId;
+    private String email;
     private int phraseId;
     private FlashcardStatus status;
 
     public UserFlashcardRequestDTO() {}
 
-    public UserFlashcardRequestDTO(int userId, int phraseId, FlashcardStatus status) {
-        this.userId = userId;
+    public UserFlashcardRequestDTO(String email, int phraseId, FlashcardStatus status) {
+        this.email = email;
         this.phraseId = phraseId;
         this.status = status;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getPhraseId() {
