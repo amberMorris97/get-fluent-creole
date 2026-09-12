@@ -12,6 +12,7 @@ import com.example.getfluentcreole.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,7 +58,17 @@ public class UserFlashcardController {
     }
 
     @DeleteMapping("/{flashcardId}")
-    public ResponseEntity<?> deleteUserFlashcard(@PathVariable int flashcardId) {
+    public ResponseEntity<?> deleteUserFlashcard(@PathVariable int flashcardId, Authentication authentication) {
+        String requestingEmail = authentication.getName();
+
+        UserFlashcard flashcard = userFlashcardRepository.findById(flashcardId).orElse(null);
+        if (flashcard == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (!flashcard.getUser().getEmailAddress().equals(requestingEmail)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         userFlashcardRepository.deleteById(flashcardId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
